@@ -13,21 +13,21 @@ full_distance = homes[len(homes)-1]-homes[0]
 
 
 def binary_search(start, end, homes):
-    while start <= end:
-        # mid = int((start+end)/2)
-        mid = (start+end)//2
-        cnt_wifi = 1
-        pre_home = homes[0]
-        for i in range(1, len(homes)):
-            if homes[i] >= mid+pre_home:
-                cnt_wifi += 1
-                pre_home = homes[i]
-        if cnt_wifi >= C:
-            global max_distance
-            max_distance = max(max_distance, mid)
-            start = mid+1
-        else:
-            end = mid-1
+    if start > end:
+        return
+    global max_distance
+    mid = int((start+end)/2)
+    cnt_wifi = 1
+    pre_home = homes[0]
+    for i in range(1, len(homes)):
+        if homes[i] >= mid+pre_home:
+            cnt_wifi += 1
+            pre_home = homes[i]
+    if cnt_wifi >= C:
+        max_distance = max(max_distance, mid)
+        binary_search(mid+1, end, homes)
+    else:
+        binary_search(start, mid-1, homes)
 
 
 binary_search(1, full_distance, homes)
